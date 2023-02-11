@@ -13,6 +13,8 @@ This package should not be considered especially stable at this time, and may ce
 ### Usage
 
 ```
+from pypi_examiner import examiner
+
 pypi = examiner()
 result = pypi.who_maintains("unishox2_py3")
 # result is: ["tweedge"]
