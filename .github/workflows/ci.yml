@@ -49,6 +49,6 @@ jobs:
       - name: Build pypi-examiner
         run: |
           python setup.py sdist bdist_wheel
-      # - name: Upload (if version bumped)
-      #  run: |
-      #    twine upload dist/* --skip-existing
+      - name: Upload (if version bumped)
+        run: |
+          twine upload dist/* --skip-existing
