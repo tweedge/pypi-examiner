@@ -20,4 +20,4 @@ result = pypi.who_maintains("unishox2_py3")
 # result is: ["tweedge"]
 ```
 
-If the package does not exist or another error has arose, then the result is `[""]`
+If the package does not exist or another error has arose, then the result is `[]`
