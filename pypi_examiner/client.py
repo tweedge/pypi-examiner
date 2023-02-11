@@ -24,6 +24,8 @@ class examiner(object):
             maint_links = maint_divs.findAll("a")
             for maint_link in maint_links:
                 maint_components = maint_link["href"].split("/")  # ex. /user/tweedge/
-                maintainers.add(maint_components[2])
+                if len(maint_components) == 4:
+                    if maint_components[0] == "" and maint_components[1] == "user":
+                        maintainers.add(maint_components[2])
 
         return list(maintainers)
