@@ -10,7 +10,7 @@ class examiner(object):
         url = f"https://pypi.org/project/{package_name}/"
         return requests.get(url)
 
-    def who_owns(self, package_name):
+    def who_maintains(self, package_name):
         result = self._fetch_package_page(package_name)
         soup = BeautifulSoup(result.text, "html.parser")
 
