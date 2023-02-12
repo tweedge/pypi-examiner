@@ -6,7 +6,8 @@
 
 PyPI Examiner scrapes PyPI for a few things the JSON API doesn't provide. Currently, this supports:
 
-* Finding the current maintainer's usernames for any package
+* Finding the current maintainers' usernames for any package
+* Finding all packages that a given user maintains
 
 This package should not be considered especially stable at this time, and may cease to function or may be heavily revised without notice.
 
@@ -16,8 +17,11 @@ This package should not be considered especially stable at this time, and may ce
 from pypi_examiner import examiner
 
 pypi = examiner()
-result = pypi.who_maintains("unishox2_py3")
-# result is: ["tweedge"]
+who = pypi.who_maintains("unishox2_py3")
+# who is: ["tweedge"]
+
+maint = pypi.maintained_by("tweedge")
+# maint is: ["unishox2-py3", "pypi-examiner", "dns-mollusc"]
 ```
 
-If the package does not exist or another error has arose, then the result is `[]`
+If the package does not exist, the maintainer owns no packages, or another error has arose: expect the result to be `[]`
