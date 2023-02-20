@@ -1,0 +1,22 @@
+name: "Live Test"
+
+on:
+  schedule:
+    - cron: '58 */3 * * *'
+
+jobs:
+  scan:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Set up Python and pip
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+      - name: Install pypi-examiner and pytest
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pypi-examiner
+      - name: Ensure pypi-examiner (live version) works
+        run: |
+          pytest
