@@ -1,5 +1,6 @@
 # pypi-examiner
 
+[![Package Works?](https://github.com/tweedge/pypi-examiner/actions/workflows/live.yml/badge.svg)](https://github.com/tweedge/pypi-examiner/actions/workflows/live.yml)
 [![License](https://img.shields.io/github/license/tweedge/pypi-examiner)](https://github.com/tweedge/pypi-examiner)
 [![Downloads](https://img.shields.io/pypi/dm/pypi-examiner)](https://pypi.org/project/pypi-examiner/)
 [![Code Style](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
