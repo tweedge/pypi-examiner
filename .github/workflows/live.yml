@@ -5,17 +5,16 @@ on:
     - cron: '40 * * * *'
 
 jobs:
-  scan:
+  pytest:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Set up Python and pip
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: '3.10'
           cache: 'pip'
-          update-environment: false
       - name: Install pypi-examiner and pytest
         run: |
           pip install pytest pypi-examiner
