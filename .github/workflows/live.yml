@@ -10,11 +10,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Set up Python and pip
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.10'
-          cache: 'pip'
       - name: Install pypi-examiner and pytest
         run: |
           pip install pytest pypi-examiner
