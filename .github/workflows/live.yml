@@ -2,12 +2,14 @@ name: "Live Test"
 
 on:
   schedule:
-    - cron: '8 */3 * * *'
+    - cron: '40 * * * *'
 
 jobs:
   scan:
     runs-on: ubuntu-20.04
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Set up Python and pip
         uses: actions/setup-python@v4
         with:
@@ -19,4 +21,5 @@ jobs:
           pip install pytest pypi-examiner
       - name: Ensure pypi-examiner (live version) works
         run: |
+          rm -r pypi_examiner
           pytest
