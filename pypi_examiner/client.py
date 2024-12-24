@@ -20,7 +20,7 @@ class examiner(object):
         return list(all_links)
 
     def _fetch_package_page(self, package_name):
-        url = f"https://pypi.org/project/{package_name}/"
+        url = f"https://pypi.org/pypi/{package_name}/json"
         return requests.get(url)
 
     def _fetch_user_page(self, user_name):
@@ -58,16 +58,5 @@ class examiner(object):
 
     def who_maintains(self, package_name):
         result = self._fetch_package_page(package_name)
-
-        target_attrs = {"class": "sidebar-section__maintainer"}
-        relevant_links = self._extract_links(result.text, "span", target_attrs)
-
-        maintainers = set()
-        for user_link in relevant_links:
-            href = user_link["href"]
-            user = self._strip_and_validate(href, 4, "/user/", 2, "/")
-            if user:
-                maintainers.add(user)
-
-        return list(maintainers)
+        return list(result.json()["info"]["author"])
 
