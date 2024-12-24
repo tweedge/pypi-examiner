@@ -9,13 +9,13 @@ class examiner(object):
     def _fetch_package_page(self, package_name):
         url = f"https://pypi.org/project/{package_name}/"
         request = self.session.get(url)
-        request.html.render(retries=3, wait=3, sleep=4, reload=True)
+        request.html.render(timeout=30, retries=3, wait=5, sleep=5, reload=True)
         return request
 
     def _fetch_user_page(self, user_name):
         url = f"https://pypi.org/user/{user_name}/"
         request = self.session.get(url)
-        request.html.render(retries=3, wait=5, sleep=4, reload=True)
+        request.html.render(timeout=30, retries=3, wait=5, sleep=5, reload=True)
         return request
 
     def _strip_and_validate(self, href, split_len, prefix, select, suffix):
