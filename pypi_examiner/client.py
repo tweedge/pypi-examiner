@@ -36,6 +36,9 @@ class examiner(object):
         result = self._fetch_user_page(user_name)
 
         packages_section = result.html.find('.package-list', first=True)
+        if not packages_section:
+            return []
+
         packages = set()
 
         for href in packages_section.absolute_links:
@@ -49,6 +52,9 @@ class examiner(object):
         result = self._fetch_package_page(package_name)
 
         maintainer_section = result.html.find('.sidebar-section__maintainer', first=True)
+        if not maintainer_section:
+            return []
+
         maintainers = set()
 
         for href in maintainer_section.absolute_links:
