@@ -1,33 +1,22 @@
 from requests_html import HTMLSession
-from bs4 import BeautifulSoup
 
 
 class examiner(object):
     def __init__(self):
+        self.session = HTMLSession(mock_browser=True)
         pass
 
-    def _extract_links(self, html, target, attributes):
-        soup = BeautifulSoup(html, "html.parser")
-        target_sections = soup.findAll(target, attrs=attributes)
-
-        all_links = set()
-        for target_section in target_sections:
-            new_links = target_section.findAll("a")
-            for new_link in new_links:
-                if not new_link in all_links:
-                    all_links.add(new_link)
-
-        return list(all_links)
-
     def _fetch_package_page(self, package_name):
-        session = HTMLSession()
         url = f"https://pypi.org/project/{package_name}/"
-        return session.get(url)
+        request = self.session.get(url)
+        request.html.render(retries=3, wait=3, sleep=4, reload=True)
+        return request
 
     def _fetch_user_page(self, user_name):
-        session = HTMLSession()
         url = f"https://pypi.org/user/{user_name}/"
-        return session.get(url)
+        request = self.session.get(url)
+        request.html.render(retries=3, wait=5, sleep=4, reload=True)
+        return request
 
     def _strip_and_validate(self, href, split_len, prefix, select, suffix):
         href_components = href.split("/")
@@ -46,13 +35,11 @@ class examiner(object):
     def maintained_by(self, user_name):
         result = self._fetch_user_page(user_name)
 
-        target_attrs = {"class": "package-list"}
-        relevant_links = self._extract_links(result.text, "div", target_attrs)
-
+        packages_section = result.html.find('.package-list', first=True)
         packages = set()
-        for packages_link in relevant_links:
-            href = packages_link["href"]
-            package = self._strip_and_validate(href, 4, "/project/", 2, "/")
+
+        for href in packages_section.absolute_links:
+            package = self._strip_and_validate(href, 6, "https://pypi.org/project/", 4, "/")
             if package:
                 packages.add(package)
 
@@ -61,13 +48,11 @@ class examiner(object):
     def who_maintains(self, package_name):
         result = self._fetch_package_page(package_name)
 
-        target_attrs = {"class": "sidebar-section__maintainer"}
-        relevant_links = self._extract_links(result.text, "span", target_attrs)
-
+        maintainer_section = result.html.find('.sidebar-section__maintainer', first=True)
         maintainers = set()
-        for user_link in relevant_links:
-            href = user_link["href"]
-            user = self._strip_and_validate(href, 4, "/user/", 2, "/")
+
+        for href in maintainer_section.absolute_links:
+            user = self._strip_and_validate(href, 6, "https://pypi.org/user/", 4, "/")
             if user:
                 maintainers.add(user)
 
