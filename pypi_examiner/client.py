@@ -1,4 +1,4 @@
-import requests
+from requests_html import HTMLSession
 from bs4 import BeautifulSoup
 
 
@@ -20,12 +20,14 @@ class examiner(object):
         return list(all_links)
 
     def _fetch_package_page(self, package_name):
+        session = HTMLSession()
         url = f"https://pypi.org/project/{package_name}/"
-        return requests.get(url)
+        return session.get(url)
 
     def _fetch_user_page(self, user_name):
+        session = HTMLSession()
         url = f"https://pypi.org/user/{user_name}/"
-        return requests.get(url)
+        return session.get(url)
 
     def _strip_and_validate(self, href, split_len, prefix, select, suffix):
         href_components = href.split("/")
