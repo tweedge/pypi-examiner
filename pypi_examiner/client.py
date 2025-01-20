@@ -73,7 +73,7 @@ class examiner(object):
         maintainer_finder = result.html.find(
             ".sidebar-section__maintainer"
         )
-        if not maintainer_section:
+        if not maintainer_finder:
             return []
 
         maintainers = set()
