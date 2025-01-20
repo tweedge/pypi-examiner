@@ -69,7 +69,8 @@ class examiner(object):
     def who_maintains(self, package_name):
         result = self._fetch_package_page(package_name)
 
-        maintainer_section = result.html.find(
+        # may return one or more than one HTML snippets as a list
+        maintainer_finder = result.html.find(
             ".sidebar-section__maintainer"
         )
         if not maintainer_section:
@@ -77,9 +78,16 @@ class examiner(object):
 
         maintainers = set()
 
-        for href in maintainer_section.absolute_links:
-            user = self._strip_and_validate(href, 6, "https://pypi.org/user/", 4, "/")
-            if user:
-                maintainers.add(user)
+        # resolve possibilities to a list of HTML snippets
+        if not isinstance(maintainer_finder, list):
+            maintainer_sections = [maintainer_finder]
+        else:
+            maintainer_sections = maintainer_finder
+
+        for maintainer_section in maintainer_sections:
+            for href in maintainer_section.absolute_links:
+                user = self._strip_and_validate(href, 6, "https://pypi.org/user/", 4, "/")
+                if user:
+                    maintainers.add(user)
 
         return list(maintainers)
