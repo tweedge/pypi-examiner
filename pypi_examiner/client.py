@@ -70,7 +70,7 @@ class examiner(object):
         result = self._fetch_package_page(package_name)
 
         maintainer_section = result.html.find(
-            ".sidebar-section__maintainer", first=True
+            ".sidebar-section__maintainer"
         )
         if not maintainer_section:
             return []
