@@ -14,3 +14,10 @@ def test_package_does_not_exist():
     result = pypi.who_maintains("httpxfaster")
 
     assert result == []
+
+
+def test_multiple_maintainers():
+    pypi = examiner()
+    result = pypi.who_maintains("boto")
+
+    assert "aws" in result and "garnaat" in result
